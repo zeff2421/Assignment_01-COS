@@ -192,3 +192,17 @@ int main() {
 
     return 0;
 }
+
+void initializeTaxiQueues(map<char, queue<TaxiType>>& taxiQueues) {
+    const int NUM_TAXIS_PER_ROUTE = 1; // Or whatever number you want
+
+    for (char route : {'S', 'L', 'C'}) {
+        for (int i = 0; i < NUM_TAXIS_PER_ROUTE; ++i) {
+            TaxiType taxi;
+            taxi.setRoute(route); // if your class supports setting route
+            taxi.setCapacity(PASSENGERS_PER_TAXI); // assume 5 passengers
+            taxi.setToAvailable();
+            taxiQueues[route].push(taxi);
+        }
+    }
+}
