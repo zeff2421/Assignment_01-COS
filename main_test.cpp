@@ -149,19 +149,19 @@ ostream& operator<<(ostream& os, const passengerType& p) {
 void initializeTaxiQueues(map<char, queue<TaxiType>>& taxiQueues);
 
 // Function to do house keeping
-void houseKeeping(TaxiType& t, queue<passengerType>& wQR, map<char, queue<TaxiType>>& taxiQueues);
+//void houseKeeping(TaxiType& t, queue<passengerType>& wQR, map<char, queue<TaxiType>>& taxiQueues);
 
 // Print output header
-void printHeader();
+//void printHeader();
 
 // print the simulation rows
-void printRows(int time, map<char, queue<TaxiType>>& taxiQueues, map<char, queue<passengerType>>& waitingQueues);
+//void printRows(int time, map<char, queue<TaxiType>>& taxiQueues, map<char, queue<passengerType>>& waitingQueues);
 
 // Function to format the each taxi's data.
-string formatEachTaxi(queue<TaxiType>& taxiQueues);
+//string formatEachTaxi(queue<TaxiType>& taxiQueues);
 
 // Function to format waiting queue.
-string formatWaitingQueue(queue<passengerType>& waitingQueues);
+//string formatWaitingQueue(queue<passengerType>& waitingQueues);
 
 int main() {
     ifstream inputFile;
@@ -212,6 +212,9 @@ int main() {
         next[timeInstance].push(passenger);
         lastTimeInstance = timeInstance;
     }
+
+    // Close file after reading
+    inputFile.close();
 
     return 0;
 }
