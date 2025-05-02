@@ -217,9 +217,38 @@ int main() {
     inputFile.close();
 
     for (int currentTime = 0; currentTime <= lastTimeInstance; currentTime++) {
-        
-    }
+        // Do house keeping for all taxis.
+        for (auto& pair : taxiQueues) {
+            char route = pair.first;
+            queue<TaxiType>& taxiQueue = pair.second;
 
+            // Ensures the taxi does exist.
+            if (!taxiQueue.empty()) {
+                TaxiType& taxi = taxiQueue.front();
+
+                if (taxi.getBoardingStatus() == "available") {
+                    queue<passengerType>& waitingQueue = waitingQueues[route];
+                    if (!waitingQueue.empty()) {
+                        passengerType nextPassenger = waitingQueue.front();
+                        taxi.setCurrentPassenger(nextPassenger);
+                    }
+                }
+                else if (taxi.getBoardingStatus() == "unavailable") {
+                    passengerType& currentPassenger = taxi.getCurrentPassenger();
+                    currentPassenger.decreaseBoardingTime();
+
+                    if (currentPassenger.getBoardingTime() == 0) {
+                        taxi.setToAvailable();
+                        taxi.decreaseTaxiCapacity();
+
+                        if (taxi.getCapacity() == 0) {
+                            taxi.setCapacity(PASSENGERS_PER_TAXI);
+                        }
+                    }
+                }
+            }
+        }
+    }
     return 0;
 }
 
