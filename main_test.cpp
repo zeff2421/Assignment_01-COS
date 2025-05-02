@@ -225,12 +225,14 @@ int main() {
             // Ensures the taxi does exist.
             if (!taxiQueue.empty()) {
                 TaxiType& taxi = taxiQueue.front();
+                queue<passengerType>& waitingQueue = waitingQueues[route];
 
                 if (taxi.getBoardingStatus() == "available") {
-                    queue<passengerType>& waitingQueue = waitingQueues[route];
                     if (!waitingQueue.empty()) {
                         passengerType nextPassenger = waitingQueue.front();
+                        waitingQueue.pop();
                         taxi.setCurrentPassenger(nextPassenger);
+                        taxi.setToUnavailable();
                     }
                 }
                 else if (taxi.getBoardingStatus() == "unavailable") {
@@ -241,9 +243,42 @@ int main() {
                         taxi.setToAvailable();
                         taxi.decreaseTaxiCapacity();
 
+                        if (!waitingQueue.empty()) {
+                            passengerType nextPassenger = waitingQueue.front();
+                            waitingQueue.pop();
+                            taxi.setCurrentPassenger(nextPassenger);
+                            taxi.setToUnavailable();
+                        }
+
                         if (taxi.getCapacity() == 0) {
                             taxi.setCapacity(PASSENGERS_PER_TAXI);
                         }
+                    }
+                }
+            }
+        }
+        // Process each arriving passenger
+        // Check if there is a passenger that arrives at currentTime
+        if (next.find(currentTime) != next.end()) {
+            queue<passengerType>& queueOfPassengers = next[currentTime];
+
+            while (!queueOfPassengers.empty()) {
+                passengerType p = queueOfPassengers.front();
+                queueOfPassengers.pop();
+
+                char route = p.getPassengerRoute();
+                queue<TaxiType>& taxiForThisRoute = taxiQueues[route];
+                queue<passengerType>& waitingQueueForThisRoute = waitingQueues[route];
+
+                // Ensures that corresponding taxi queue exist.
+                if (!taxiForThisRoute.empty()) {
+                    TaxiType& taxi = taxiForThisRoute.front();
+
+                    if (taxi.getBoardingStatus() == "unavailable") {
+                        waitingQueueForThisRoute.push(p);
+                    } else if (taxi.getBoardingStatus() == "available") {
+                        taxi.setCurrentPassenger(p);
+                        taxi.setToUnavailable();
                     }
                 }
             }
