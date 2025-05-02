@@ -170,5 +170,12 @@ int main() {
     int timeInstance, boardingTime, location;
     map<int, queue<passengerType>> next;
 
+    // Initialize empty queues of taxis
+    map<char, queue<TaxiType>> taxiQueues;
+    initializeTaxiQueues(taxiQueues);
+    /* taxiQueues[SHORT_ROUTE] = queue<TaxiType>();
+    taxiQueues[LONG_ROUTE] = queue<TaxiType>();
+    taxiQueues[CITY_ROUTE] = queue<TaxiType>();*/
+
     return 0;
 }
