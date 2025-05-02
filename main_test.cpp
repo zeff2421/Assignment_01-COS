@@ -188,5 +188,7 @@ int main() {
         cerr << "Couldn't open file. Make sure it's the right location!!";
     }
 
+    int lastTimeInstance = 0;
+
     return 0;
 }
