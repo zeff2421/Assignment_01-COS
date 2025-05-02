@@ -216,6 +216,10 @@ int main() {
     // Close file after reading
     inputFile.close();
 
+    for (int currentTime = 0; currentTime <= lastTimeInstance; currentTime++) {
+        
+    }
+
     return 0;
 }
 
