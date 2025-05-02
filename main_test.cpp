@@ -177,5 +177,11 @@ int main() {
     taxiQueues[LONG_ROUTE] = queue<TaxiType>();
     taxiQueues[CITY_ROUTE] = queue<TaxiType>();*/
 
+    // Initialize the waiting queues
+    map<char, queue<passengerType>> waitingQueues;
+    waitingQueues[SHORT_ROUTE] = queue<passengerType>();
+    waitingQueues[LONG_ROUTE] = queue<passengerType>();
+    waitingQueues[CITY_ROUTE] = queue<passengerType>();
+
     return 0;
 }
