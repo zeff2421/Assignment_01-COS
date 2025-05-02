@@ -162,3 +162,13 @@ string formatEachTaxi(queue<TaxiType>& taxiQueues);
 
 // Function to format waiting queue.
 string formatWaitingQueue(queue<passengerType>& waitingQueues);
+
+int main() {
+    ifstream inputFile;
+    string line;
+    char route;
+    int timeInstance, boardingTime, location;
+    map<int, queue<passengerType>> next;
+
+    return 0;
+}
