@@ -190,6 +190,29 @@ int main() {
 
     int lastTimeInstance = 0;
 
+    while (getline(inputFile, line)) {
+        if (line.empty()) {
+            continue;
+        }
+        location = line.find(',');
+        timeInstance = stoi(line.substr(0, location));
+        line = line.substr(location + 1, line.length());
+
+        location = line.find(',');
+        route = line.substr(0, location)[0];
+        line = line.substr(location + 1, line.length());
+
+        boardingTime = stoi(line);
+
+        cout << "Time instance: " << timeInstance << endl
+             << " Route: " << route << endl
+             << " Boarding Time: " << boardingTime << endl << endl;
+
+        passengerType passenger(timeInstance, route, boardingTime);
+        next[timeInstance].push(passenger);
+        lastTimeInstance = timeInstance;
+    }
+
     return 0;
 }
 
