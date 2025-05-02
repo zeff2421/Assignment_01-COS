@@ -183,5 +183,10 @@ int main() {
     waitingQueues[LONG_ROUTE] = queue<passengerType>();
     waitingQueues[CITY_ROUTE] = queue<passengerType>();
 
+    inputFile.open("taxiData.txt");
+    if (!inputFile.is_open()) {
+        cerr << "Couldn't open file. Make sure it's the right location!!";
+    }
+
     return 0;
 }
