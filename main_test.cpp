@@ -67,3 +67,73 @@ private:
     int boardingTime;
     
 };
+
+class TaxiType {
+public:
+    // Default constructor.
+    TaxiType(): /*routeType('N'),*/ boardingStatus("available"), taxiCapacity(5) {}
+
+    // Function to set the current passenger boarding
+    void setCurrentPassenger(passengerType cPassenger) {
+        currentPassengerBoarding = cPassenger;
+    }
+
+    // Function to set the route of the taxi
+    void setRoute(char tRoute) {
+        routeType = tRoute;
+    }
+
+    // Function to determine if a passenger is boarding.
+    bool isPassengerBoarding() const {
+        return (boardingStatus == "unavailable");
+    }
+
+    // Function to set boarding status to busy.
+    void setToUnavailable() {
+        boardingStatus = "unavailable";
+    }
+
+    // Function to set boarding status to free.
+    void setToAvailable() {
+        boardingStatus = "available";
+    }
+
+    // Fucntion to set capacity
+    void setCapacity(int capacity) {
+        taxiCapacity = capacity;
+    }
+
+    // Function to get the info of the current passenger.
+    passengerType& getCurrentPassenger() {
+        return currentPassengerBoarding;
+    }
+
+    // Function to get the route of the taxi.
+    char getRoute() const {
+        return routeType;
+    }
+
+    // Function to return the boarding status of the taxi.
+    string getBoardingStatus() const {
+        return boardingStatus;
+    }
+
+    // Function to return taxi capacity.
+    int getCapacity() const {
+        return taxiCapacity;
+    }
+
+    // Decrease the taxi capacity as passengers board.
+    void decreaseTaxiCapacity() {
+        taxiCapacity--;
+    }
+
+    // Deconstructor
+    //~TaxiType();
+
+private:
+    passengerType currentPassengerBoarding;
+    char routeType;
+    string boardingStatus;
+    int taxiCapacity;
+};
