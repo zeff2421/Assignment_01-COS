@@ -137,3 +137,11 @@ private:
     string boardingStatus;
     int taxiCapacity;
 };
+
+// Function to overload the insertion operator
+ostream& operator<<(ostream& os, const passengerType& p) {
+    os << "Arrival Time: " << p.arrivalTime
+       << ", Route: " << p.passengerRoute
+       << ", Boarding Time: " << p.boardingTime;
+    return os;
+}
