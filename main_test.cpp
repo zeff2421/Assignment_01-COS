@@ -33,9 +33,6 @@ public:
         boardingTime = bTime;
     }
 
-    /* // Function to set the time the passenger arrives.
-    void setArrivalTime( int aTime); */
-
     // Function to set the route the passenger will take (S, L. or C)
     void setPassengerRoute(char route) {
         passengerRoute = route;
@@ -71,7 +68,7 @@ private:
 class TaxiType {
 public:
     // Default constructor.
-    TaxiType(): /*routeType('N'),*/ boardingStatus("available"), taxiCapacity(5) {}
+    TaxiType(): boardingStatus("available"), taxiCapacity(5) {}
 
     // Function to set the current passenger boarding
     void setCurrentPassenger(passengerType cPassenger) {
@@ -128,9 +125,6 @@ public:
         taxiCapacity--;
     }
 
-    // Deconstructor
-    //~TaxiType();
-
 private:
     passengerType currentPassengerBoarding;
     char routeType;
@@ -147,9 +141,6 @@ ostream& operator<<(ostream& os, const passengerType& p) {
 }
 
 void initializeTaxiQueues(map<char, queue<TaxiType>>& taxiQueues);
-
-// Function to do house keeping
-//void houseKeeping(TaxiType& t, queue<passengerType>& wQR, map<char, queue<TaxiType>>& taxiQueues);
 
 // Print output header
 void printHeader();
@@ -173,9 +164,6 @@ int main() {
     // Initialize empty queues of taxis
     map<char, queue<TaxiType>> taxiQueues;
     initializeTaxiQueues(taxiQueues);
-    /* taxiQueues[SHORT_ROUTE] = queue<TaxiType>();
-    taxiQueues[LONG_ROUTE] = queue<TaxiType>();
-    taxiQueues[CITY_ROUTE] = queue<TaxiType>();*/
 
     // Initialize the waiting queues
     map<char, queue<passengerType>> waitingQueues;
@@ -230,6 +218,7 @@ int main() {
                 TaxiType& taxi = taxiQueue.front();
                 queue<passengerType>& waitingQueue = waitingQueues[route];
 
+                // Checks if taxi is available
                 if (taxi.getBoardingStatus() == "available") {
                     if (!waitingQueue.empty()) {
                         passengerType nextPassenger = waitingQueue.front();
@@ -241,6 +230,7 @@ int main() {
                         taxi.setToUnavailable();
                     }
                 }
+                // Checks if taxi has a passenger currently boarding.
                 else if (taxi.getBoardingStatus() == "unavailable") {
                     passengerType& currentPassenger = taxi.getCurrentPassenger();
                     currentPassenger.decreaseBoardingTime();
@@ -317,13 +307,13 @@ int main() {
 }
 
 void initializeTaxiQueues(map<char, queue<TaxiType>>& taxiQueues) {
-    const int NUM_TAXIS_PER_ROUTE = 1; // Or whatever number you want
+    const int NUM_TAXIS_PER_ROUTE = 1;
 
     for (char route : {'S', 'L', 'C'}) {
         for (int i = 0; i < NUM_TAXIS_PER_ROUTE; ++i) {
             TaxiType taxi;
-            taxi.setRoute(route); // if your class supports setting route
-            taxi.setCapacity(PASSENGERS_PER_TAXI); // assume 5 passengers
+            taxi.setRoute(route);
+            taxi.setCapacity(PASSENGERS_PER_TAXI);
             taxi.setToAvailable();
             taxiQueues[route].push(taxi);
         }
