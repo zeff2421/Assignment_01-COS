@@ -15,8 +15,6 @@ const int PASSENGERS_PER_TAXI = 5;
 
 class passengerType {
 public:
-    // Friend function declaration.
-    friend ostream& operator<<(ostream& os, const passengerType& p);
 
     // Default constructor
     passengerType(): arrivalTime(0), passengerRoute('N'), boardingTime(0), passengerNum(0) {}
@@ -142,14 +140,6 @@ private:
     int taxiCapacity;
 };
 
-// Function to overload the insertion operator
-ostream& operator<<(ostream& os, const passengerType& p) {
-    os << "Arrival Time: " << p.arrivalTime
-       << ", Route: " << p.passengerRoute
-       << ", Boarding Time: " << p.boardingTime;
-    return os;
-}
-
 void initializeTaxiQueues(map<char, queue<TaxiType>>& taxiQueues);
 
 // Print output header
@@ -199,14 +189,14 @@ int main() {
             continue;
         }
         location = line.find(',');
-        timeInstance = stoi(line.substr(0, location));
+        timeInstance = stoi(line.substr(0, location)); // time each passenger arrives in.
         line = line.substr(location + 1, line.length());
 
         location = line.find(',');
-        route = line.substr(0, location)[0];
+        route = line.substr(0, location)[0]; // route each passenger takes.
         line = line.substr(location + 1, line.length());
 
-        boardingTime = stoi(line);
+        boardingTime = stoi(line); // time each passenger will take to board.
 
         cout << "Time instance: " << timeInstance << endl
              << " Route: " << route << endl
