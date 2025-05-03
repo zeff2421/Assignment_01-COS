@@ -292,8 +292,27 @@ int main() {
             }
         }
 
+        // Ensures there are no mid-boarding passengers and no passenger waiting before finishing simulation
+        if (currentTime == lastTimeInstance) {
+            for (auto& pair : taxiQueues) {
+                char route = pair.first;
+                queue<TaxiType>& taxiQueue = pair.second;
+    
+                if (!taxiQueue.empty()) {
+                    TaxiType& taxi = taxiQueue.front();
+                    queue<passengerType>& waitingQueue = waitingQueues[route];
+                    
+                    if (taxi.getBoardingStatus() == "unavailable" || !waitingQueue.empty()) {
+                        lastTimeInstance++;
+                        break;
+                    }
+                }
+            }
+        }
+
         printRows(currentTime, taxiQueues, waitingQueues);
     }
+
     return 0;
 }
 
