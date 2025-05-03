@@ -1,3 +1,14 @@
+/*
+ * Acknowledgement:
+ * OpenAI's ChatGPT helped me generate a large dataset to test scalability and correctness of my program.
+ * 
+ * I also learned about C++ "std::map" usage from the following YouTube channels:
+ * - CodeBeauty
+ * - The Cherno
+ * 
+ * The final implementation is entirely my own. External resources were used strictly for educational support.
+*/
+
 #include <iostream>
 #include <cassert>
 #include <fstream>
