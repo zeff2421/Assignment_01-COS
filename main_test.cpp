@@ -234,6 +234,9 @@ int main() {
                     if (!waitingQueue.empty()) {
                         passengerType nextPassenger = waitingQueue.front();
                         waitingQueue.pop();
+                        if (taxi.getCapacity() == 0) {
+                            taxi.setCapacity(PASSENGERS_PER_TAXI);
+                        }
                         taxi.setCurrentPassenger(nextPassenger);
                         taxi.setToUnavailable();
                     }
@@ -249,12 +252,11 @@ int main() {
                         if (!waitingQueue.empty()) {
                             passengerType nextPassenger = waitingQueue.front();
                             waitingQueue.pop();
+                            if (taxi.getCapacity() == 0) {
+                                taxi.setCapacity(PASSENGERS_PER_TAXI);
+                            }
                             taxi.setCurrentPassenger(nextPassenger);
                             taxi.setToUnavailable();
-                        }
-
-                        if (taxi.getCapacity() == 0) {
-                            taxi.setCapacity(PASSENGERS_PER_TAXI);
                         }
                     }
                 }
@@ -280,6 +282,9 @@ int main() {
                     if (taxi.getBoardingStatus() == "unavailable") {
                         waitingQueueForThisRoute.push(p);
                     } else if (taxi.getBoardingStatus() == "available") {
+                        if (taxi.getCapacity() == 0) {
+                            taxi.setCapacity(PASSENGERS_PER_TAXI);
+                        }
                         taxi.setCurrentPassenger(p);
                         taxi.setToUnavailable();
                     }
