@@ -198,10 +198,6 @@ int main() {
 
         boardingTime = stoi(line); // time each passenger will take to board.
 
-        cout << "Time instance: " << timeInstance << endl
-             << " Route: " << route << endl
-             << " Boarding Time: " << boardingTime << endl << endl;
-
         passengerType passenger(timeInstance, route, boardingTime);
         next[timeInstance].push(passenger);
         lastTimeInstance = timeInstance;
