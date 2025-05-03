@@ -19,7 +19,7 @@ public:
     friend ostream& operator<<(ostream& os, const passengerType& p);
 
     // Default constructor
-    passengerType(): arrivalTime(0), passengerRoute('N'), boardingTime(0) {}
+    passengerType(): arrivalTime(0), passengerRoute('N'), boardingTime(0), passengerNum(0) {}
 
     // Constructor
     passengerType(int aTime, char route, int bTime) {
@@ -38,6 +38,11 @@ public:
         passengerRoute = route;
     }
 
+    // Function to set passenger number.
+    void setPassengerNumber(int pNumber) {
+        passengerNum = pNumber;
+    }
+
     // Function to return the boarding time of a passenger.
     int getBoardingTime() const {
         return boardingTime;
@@ -53,6 +58,11 @@ public:
         return passengerRoute;
     }
 
+    // Function to get passenger number.
+    int getPassengerNumber() const {
+        return passengerNum;
+    }
+
     // Function to decrease the boarding time.
     void decreaseBoardingTime() {
         boardingTime--;
@@ -62,7 +72,7 @@ private:
     int arrivalTime;
     char passengerRoute;
     int boardingTime;
-    
+    int passengerNum;
 };
 
 class TaxiType {
@@ -171,6 +181,12 @@ int main() {
     waitingQueues[LONG_ROUTE] = queue<passengerType>();
     waitingQueues[CITY_ROUTE] = queue<passengerType>();
 
+    // Keep track of passenger counts.
+    map<char, int> passengerCounts;
+    passengerCounts[SHORT_ROUTE] = 0;
+    passengerCounts[LONG_ROUTE] = 0;
+    passengerCounts[CITY_ROUTE] = 0;
+
     inputFile.open("taxiData.txt");
     if (!inputFile.is_open()) {
         cerr << "Couldn't open file. Make sure it's the right location!!";
@@ -262,6 +278,8 @@ int main() {
                 queueOfPassengers.pop();
 
                 char route = p.getPassengerRoute();
+                passengerCounts[route]++;
+                p.setPassengerNumber(passengerCounts[route]);
                 queue<TaxiType>& taxiForThisRoute = taxiQueues[route];
                 queue<passengerType>& waitingQueueForThisRoute = waitingQueues[route];
 
@@ -378,7 +396,8 @@ string formatEachTaxi(queue<TaxiType>& taxiQueues) {
     if (taxi.getBoardingStatus() == "unavailable") {
         char route = taxi.getCurrentPassenger().getPassengerRoute();
         int boardingTimeLeft = taxi.getCurrentPassenger().getBoardingTime();
-        return string(1, route) + "(" + to_string(boardingTimeLeft) + ")";
+        int passengerNumber = taxi.getCurrentPassenger().getPassengerNumber();
+        return string(1, route) + to_string(passengerNumber) + "(" + to_string(boardingTimeLeft) + ")";
     }
 
     return " ";
@@ -393,7 +412,8 @@ string formatWaitingQueue(queue<passengerType>& waitingQueues) {
 
         char route = passenger.getPassengerRoute();
         int boardingTime = passenger.getBoardingTime();
-        return string(1, route) + "(" + to_string(boardingTime) + ")";
+        int passengerNumber = passenger.getPassengerNumber();
+        return string(1, route) + to_string(passengerNumber) + "(" + to_string(boardingTime) + ")";
     }
 
     return " ";
