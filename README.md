@@ -1,4 +1,4 @@
-# COS2611-Assignment01
+# Taxi Queue Simulation
 
 ## Acknowledgment
 
