@@ -155,13 +155,13 @@ void initializeTaxiQueues(map<char, queue<TaxiType>>& taxiQueues);
 void printHeader();
 
 // print the simulation rows
-//void printRows(int time, map<char, queue<TaxiType>>& taxiQueues, map<char, queue<passengerType>>& waitingQueues);
+void printRows(int time, map<char, queue<TaxiType>>& taxiQueues, map<char, queue<passengerType>>& waitingQueues);
 
 // Function to format the each taxi's data.
-//string formatEachTaxi(queue<TaxiType>& taxiQueues);
+string formatEachTaxi(queue<TaxiType>& taxiQueues);
 
 // Function to format waiting queue.
-//string formatWaitingQueue(queue<passengerType>& waitingQueues);
+string formatWaitingQueue(queue<passengerType>& waitingQueues);
 
 int main() {
     ifstream inputFile;
@@ -215,6 +215,9 @@ int main() {
 
     // Close file after reading
     inputFile.close();
+
+    // Print the header
+    printHeader();
 
     for (int currentTime = 0; currentTime <= lastTimeInstance; currentTime++) {
         // Do house keeping for all taxis.
@@ -283,6 +286,8 @@ int main() {
                 }
             }
         }
+
+        printRows(currentTime, taxiQueues, waitingQueues);
     }
     return 0;
 }
@@ -316,4 +321,66 @@ void printHeader() {
          << setw(8) << "CC"
          << endl;
     cout << string(108, '-') << endl;
+}
+
+void printRows(int time, map<char, queue<TaxiType>>& taxiQueues, map<char, queue<passengerType>>& waitingQueues) {
+
+    // The correct format for boarding passengers.
+    string info_S = formatEachTaxi(taxiQueues[SHORT_ROUTE]);
+    string info_L = formatEachTaxi(taxiQueues[LONG_ROUTE]);
+    string info_C = formatEachTaxi(taxiQueues[CITY_ROUTE]);
+
+    // Correct format of each waiting queue.
+    string waitingQueue_S = formatWaitingQueue(waitingQueues[SHORT_ROUTE]);
+    string waitingQueue_L = formatWaitingQueue(waitingQueues[LONG_ROUTE]);
+    string waitingQueue_C = formatWaitingQueue(waitingQueues[CITY_ROUTE]);
+
+    // Keep track of how each taxi capacity changes.
+    int taxiCapacity_S = taxiQueues[SHORT_ROUTE].front().getCapacity();
+    int taxiCapacity_L = taxiQueues[LONG_ROUTE].front().getCapacity();
+    int taxiCapacity_C = taxiQueues[CITY_ROUTE].front().getCapacity();
+
+
+    cout << left
+         << setw(6) << time
+         << setw(12) << " "
+         << setw(10) << info_S
+         << setw(10) << info_L
+         << setw(10) << info_C
+         << setw(12) << waitingQueue_S
+         << setw(12) << waitingQueue_L
+         << setw(12) << waitingQueue_C
+         << setw(8) << taxiCapacity_S
+         << setw(8) << taxiCapacity_L
+         << setw(8) << taxiCapacity_C
+         << endl;
+}
+
+string formatEachTaxi(queue<TaxiType>& taxiQueues) {
+    if (taxiQueues.empty())
+        return " ";
+
+    TaxiType& taxi = taxiQueues.front();
+    if (taxi.getBoardingStatus() == "unavailable") {
+        char route = taxi.getCurrentPassenger().getPassengerRoute();
+        int boardingTimeLeft = taxi.getCurrentPassenger().getBoardingTime();
+        return string(1, route) + "(" + to_string(boardingTimeLeft) + ")";
+    }
+
+    return " ";
+}
+
+string formatWaitingQueue(queue<passengerType>& waitingQueues) {
+    if (waitingQueues.empty())
+        return " ";
+
+    while (!waitingQueues.empty()) {
+        passengerType& passenger = waitingQueues.front();
+
+        char route = passenger.getPassengerRoute();
+        int boardingTime = passenger.getBoardingTime();
+        return string(1, route) + "(" + to_string(boardingTime) + ")";
+    }
+
+    return " ";
 }
