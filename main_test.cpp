@@ -152,7 +152,7 @@ void initializeTaxiQueues(map<char, queue<TaxiType>>& taxiQueues);
 //void houseKeeping(TaxiType& t, queue<passengerType>& wQR, map<char, queue<TaxiType>>& taxiQueues);
 
 // Print output header
-//void printHeader();
+void printHeader();
 
 // print the simulation rows
 //void printRows(int time, map<char, queue<TaxiType>>& taxiQueues, map<char, queue<passengerType>>& waitingQueues);
@@ -299,4 +299,21 @@ void initializeTaxiQueues(map<char, queue<TaxiType>>& taxiQueues) {
             taxiQueues[route].push(taxi);
         }
     }
+}
+
+void printHeader() {
+    cout << left
+         << setw(6) << "T"
+         << setw(12) << "next"
+         << setw(10) << "S"
+         << setw(10) << "L"
+         << setw(10) << "C"
+         << setw(12) << "WQS"
+         << setw(12) << "WQL"
+         << setw(12) << "WQC"
+         << setw(8) << "CS"
+         << setw(8) << "CL"
+         << setw(8) << "CC"
+         << endl;
+    cout << string(108, '-') << endl;
 }
